@@ -52,3 +52,4 @@ foreach (getAllHotspots() as $hotspot) {
 ?>
 	</tbody>
 </table>
+<a href="/pi-log">Pi log</a>
