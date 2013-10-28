@@ -28,7 +28,7 @@ function getAllHotspots() {
 
 function getHotspotStatus($hotspot_id) {
 	global $connected;
-	return in_array(intval($hotspot_id), $connected) ? "online" : "offline";
+	return in_array(intval($hotspot_id), $connected) ? "ON" : "OFF";
 }
 $connected = getConnectedPiIDs();
 ?>
