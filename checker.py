@@ -6,7 +6,7 @@ from pytz import timezone
 import pytz
 
 def getOnlinePis():
-  output, stderr = subprocess.Popen("/usr/local/bin/lspis | tail -n +1 | awk {'print $4'}", shell=True, stdout = subprocess.PIPE).communicate()
+  output, stderr = subprocess.Popen("/usr/local/bin/lspis | tail -n +1 | awk {'print $4'}", shell=True, stdout = subprocess.PIPE, stderr = subprocess.PIPE).communicate()
   retme = []
   for line in output.split("\n"):
     if not line:
