@@ -1,5 +1,5 @@
 <?php
-$db = new PDO('mysql:dbname=fsbrawl_new;host=fsbrawldb.cjkdd9xya3gn.us-east-1.rds.amazonaws.com;charset=utf8', 'fsbrawl', 'Brawl2011');
+$db = new PDO('mysql:dbname=fsbrawl_new;host=fsbrawldb.cjkdd9xya3gn.us-east-1.rds.amazonaws.com;charset=utf8', 'fsbrawl_read', 'reader');
 
 $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -20,6 +20,35 @@ function getConnectedPiIDs() {
 }
 
 function getAllHotspots() {
+	global $db;
+	$sth = $db->prepare("SELECT * FROM Hotspots");
+	$sth->execute();
+	return $sth->fetchAll(PDO::FETCH_ASSOC);
 }
-print_r(getConnectedPiIDs());
+
+function getHotspotStatus($hotspot_id) {
+	global $connected;
+	return in_array(intval($hotspot_id), $connected) ? "online" : "offline";
+}
+$connected = getConnectedPiIDs();
 ?>
+<table>
+	<theader>
+		<th>ID</th>
+		<th>Name</th>
+		<th>Status</th>
+	</theader>
+	<tbody>
+<?php
+foreach (getAllHotspots() as $hotspot) {
+	echo "<tr><td>";
+	echo $hotspot['Hotspot_ID'];
+	echo "</td><td>";
+	echo $hotspot['Name'];
+	echo "</td><td>";
+	echo getHotspotStatus($hotspot['Hotspot_ID']);
+	echo "</td></tr>";
+}
+?>
+	</tbody>
+</table>
